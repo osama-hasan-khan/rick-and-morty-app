@@ -1,10 +1,12 @@
 import React from "react";
 
-const Search = () => {
+const Search = ({ query, setQuery }) => {
   return (
     <div className="flex flex-row gap-14 items-center justify-center mt-4">
       <input
         type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         placeholder="search character"
         className="p-3 px-6 outline-none border-2 border-zinc-700"
       />
