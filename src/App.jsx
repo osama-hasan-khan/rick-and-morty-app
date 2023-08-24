@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import Card from "./components/Card";
+import Search from "./components/Search";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [dataApi, setDataApi] = useState([]);
+  
+
+  useEffect(() => {
+    fetch("https://rickandmortyapi.com/api/character")
+      .then((res) => res.json())
+      .then((data) => setDataApi(data.results));
+  }, []);
+
+  console.log(dataApi);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container m-auto mt-3">
+      <h1 className="text-4xl text-center text-zinc-500 font-bold font-mono">
+        Rick and Morty
+      </h1>
+      <Search />
+      <div className="mt-9 grid grid-cols-4 gap-y-32 gap-x-8">
+        {dataApi.map((char) => {
+          return <Card char={char} key={char.id} />;
+        })}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
